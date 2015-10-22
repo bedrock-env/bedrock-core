@@ -1,0 +1,34 @@
+source $HOME/.bedrockrc
+
+# set term
+TERM=screen-256color
+
+configs=($BEDROCK_DIR/*/*.zsh $BEDROCK_DIR/extensions/**/*.zsh)
+
+# load path files
+for file in ${(M)configs:#*/path.zsh}
+do
+  source $file
+done
+
+# load everything but the path, completion, and init files
+for file in ${${${configs:#*/path.zsh}:#*/completion.zsh}:#*/init.zsh}
+do
+  source $file
+done
+
+stty -ixon
+
+# load the init files
+for file in $BEDROCK_DIR/**/*/init.zsh
+do
+  source $file
+done
+
+export PATH=$PRIORITY_PATH:$PATH
+
+# local settings
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi

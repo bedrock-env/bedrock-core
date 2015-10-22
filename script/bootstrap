@@ -1,0 +1,176 @@
+#!/usr/bin/env bash
+#
+# bootstrap bedrock environment.
+
+source "$(dirname $0)/shared"
+
+set -e
+
+configure_bedrock () {
+  cd "$(dirname "$0")/.."
+  CWD=$(pwd)
+
+  if [ -f "$HOME/.bedrockrc" ]
+  then
+    sed -i '' "/export BEDROCK_DIR/ s#=.*#=$CWD#" $HOME/.bedrockrc
+  else
+    echo "export BEDROCK_DIR=$CWD" > $HOME/.bedrockrc
+  fi
+  source $HOME/.bedrockrc
+}
+
+link_file () {
+  local src=$1 dst=$2
+
+  local overwrite= backup= skip=
+  local action=
+
+  if [ -f "$dst" -o -d "$dst" -o -L "$dst" ]
+  then
+    if [ "$overwrite_all" == "false" ] && [ "$backup_all" == "false" ] && [ "$skip_all" == "false" ]
+    then
+      local current_src="$(readlink $dst)"
+
+      if [ "$current_src" == "$src" ]
+      then
+        skip=true;
+      else
+        user "File already exists: $dst ($(basename "$src")), what do you want to do?\n\
+        [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all?"
+        read -n 1 action
+
+        case "$action" in
+          o )
+            overwrite=true;;
+          O )
+            overwrite_all=true;;
+          b )
+            backup=true;;
+          B )
+            backup_all=true;;
+          s )
+            skip=true;;
+          S )
+            skip_all=true;;
+          * )
+            ;;
+        esac
+      fi
+    fi
+
+    overwrite=${overwrite:-$overwrite_all}
+    backup=${backup:-$backup_all}
+    skip=${skip:-$skip_all}
+
+    if [ "$overwrite" == "true" ]
+    then
+      rm -rf "$dst"
+      success "removed $dst"
+    fi
+
+    if [ "$backup" == "true" ]
+    then
+      mv "$dst" "${dst}.backup"
+      success "moved $dst to ${dst}.backup"
+    fi
+
+    if [ "$skip" == "true" ]
+    then
+      success "skipped $src"
+    fi
+  fi
+
+  if [ "$skip" != "true" ]  # "false" or empty
+  then
+    ln -s "$1" "$2"
+    success "linked $1 to $2"
+  fi
+}
+
+install_dotfiles () {
+  local overwrite_all=false backup_all=false skip_all=false
+
+  for src in $(find -H "$BEDROCK_DIR" -maxdepth 2 -name '*.symlink')
+  do
+    dst="$HOME/.$(basename "${src%.*}")"
+    link_file "$src" "$dst"
+  done
+}
+
+install_extensions () {
+  local overwrite_all=false backup_all=false skip_all=false
+
+  for src in $(find -H "$BEDROCK_DIR/extensions" -mindepth 1 -maxdepth 2 -name '*.symlink')
+  do
+    dst="$HOME/.$(basename "${src%.*}")"
+
+    if [ -d $src ]
+    then
+      # source is a directory
+      if [ ! -d $dst ]
+      then
+        # directory does not yet exist. create it.
+        mkdir $dst
+      fi
+      # symlink all contents of the directory
+      for f in $(find -H "$src" -mindepth 1 -maxdepth 1)
+      do
+        link_file "$f" "$dst/$(basename "$f")"
+      done
+    else
+      # source is a file
+      link_file "$src" "$dst"
+    fi
+  done
+}
+
+build_foundation () {
+  if [ "$(uname -s)" == "Darwin" ]
+  then
+    # Mac-specific dependencies.
+    # Check for Homebrew
+    if test ! $(which brew)
+    then
+      info "Installing Homebrew"
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      if [ $? -eq 0 ];
+      then
+        success "Installed Homebrew"
+      fi
+    else
+      info "Updating Homebrew"
+      brew update >/dev/null
+      success "Homebrew updated"
+    fi
+  
+    info "Installing brew-cask"
+    if [ ! -d "/usr/local/Cellar/brew-cask" ]
+    then
+      brew install caskroom/cask/brew-cask
+      if [ $? -eq 0 ];
+      then
+        fail "brew-cask install failed"
+      else
+        success "Installed brew-cask"
+      fi
+    else
+      success "brew-cask is already installed"
+    fi
+  fi
+}
+
+configure_bedrock
+install_dotfiles
+build_foundation
+install_extensions
+
+info "Installing dependencies"
+if source $BEDROCK_DIR/bin/dot
+then
+  success "Dependencies installed"
+else
+  fail "Error installing dependencies"
+fi
+
+printf '\n  Setup complete!\n'
+printf '  You should close all sessions and your terminal to ensure all changes take effect.\n'

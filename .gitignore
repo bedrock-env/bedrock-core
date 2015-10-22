@@ -1,0 +1,5 @@
+extensions
+
+.DS_Store
+vim/vim.symlink/bundle
+*~

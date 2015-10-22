@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+# dot
+#
+# `dot` handles installation, updates, things like that. Run it periodically
+# to make sure you're on the latest and greatest.
+export BEDROCK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )/.."
+
+$BEDROCK_DIR/script/install
+$BEDROCK_DIR/script/vimbundles
