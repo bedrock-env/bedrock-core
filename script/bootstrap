@@ -142,20 +142,6 @@ build_foundation () {
       brew update >/dev/null
       success "Homebrew updated"
     fi
-  
-    info "Installing brew-cask"
-    if [ ! -d "/usr/local/Cellar/brew-cask" ]
-    then
-      brew install caskroom/cask/brew-cask
-      if [ $? -eq 0 ];
-      then
-        fail "brew-cask install failed"
-      else
-        success "Installed brew-cask"
-      fi
-    else
-      success "brew-cask is already installed"
-    fi
   fi
 }
 
