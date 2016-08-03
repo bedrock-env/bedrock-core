@@ -20,10 +20,12 @@ done
 stty -ixon
 
 # load the init files
+{
 for file in $BEDROCK_DIR/**/*/init.zsh
 do
   source $file
 done
+} &> /dev/null
 
 export PATH=$PRIORITY_PATH:$PATH
 
