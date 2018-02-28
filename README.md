@@ -45,12 +45,35 @@ font collection.
 
 #### iTerm2 (preferred)
 
+##### For versions of iTerm2 earlier than Build 3.1.5:
+
 - Open iTerm2 -> Preferences -> General.
 - Check "Load Preferences from a custom folder or URL"
 - Set custom path to `$BEDROCK_DIR/config`
-- Go to Preferences -> Profiles. Select the bedrock profile. Select the "Colors" tab.
+- Relaunch iTerm2
+- Go to iTerm2 -> Preferences -> Profiles. Select the bedrock profile. Select the "Colors" tab.
 - Select "Load Presets" -> "Import..."
 - Select `iterm2/bedrock.itermcolors`
+- Relaunch iTerm2
+- Note: you may have to restart your machine for the shell settings to take
+  effect
+- Uncheck "Load Preferences from a custom folder or URL"
+
+##### For iTerm2 Build 3.1.5 and later:
+
+- Open iTerm2 -> Preferences -> General.
+- Check "Load Preferences from a custom folder or URL"
+- Set custom path to `$BEDROCK_DIR/config`.
+- iTerm will pop up a dialog box asking `Copy local preferences to custom folder now?`.
+  Answer `Don't Copy`.
+- Close the Preferences dialog and relaunch iTerm2.
+- Go to iTerm2 -> Preferences -> Profiles. Select the bedrock profile.
+    - If the "bedrock" profile is not available, it's probably because you
+      previously chose `Copy` instead of `Don't Copy`. Go back and try again.
+- Select the "Colors" tab.
+- Select "Color Presets..." -> "Import..."
+- Choose the file `$BEDROCK_DIR/config/bedrock.itermcolors`
+- Select "Color Presets..." -> "bedrock", which is now available as a choice.
 - Relaunch iTerm2
 - Note: you may have to restart your machine for the shell settings to take
   effect
