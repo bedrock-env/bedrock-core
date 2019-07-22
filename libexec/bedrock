@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# set -e
+[ -n "$BEDROCK_DEBUG" ] && set -x
+
+command="$1"
+
+bin_path="$(dirname "$0")"
+export PATH="${bin_path}:${PATH}"
+
+case "$command" in
+"" | "-h" | "--help" )
+  echo -e "$(bedrock---version)\n$(bedrock-help)" >&2
+  ;;
+"-v" )
+  exec bedrock---version
+  ;;
+* )
+  command_path="$(command -v "bedrock-$command" || true)"
+  if [ -z "$command_path" ]; then
+    echo "bedrock: no such command '$command'" >&2
+    exit 1
+  fi
+
+  shift 1
+  exec "$command_path" "$@"
+  ;;
+esac

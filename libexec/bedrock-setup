@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+
+source $BEDROCK_DIR/libexec/shared
+
+function install_pkg_manager () {
+  # macOS - Homebrew
+  if [ "$(uname -s)" = "Darwin" ]
+  then
+    if test ! "$(which brew)"
+    then
+      info "Installing Homebrew"
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+      if [ $? -eq 0 ];
+      then
+        success "Installed Homebrew"
+      fi
+    else
+      info "Updating Homebrew"
+      brew update >/dev/null
+      success "Homebrew updated"
+    fi
+  fi
+}
+
+command="$1"
+
+case "$command" in
+"dependencies" )
+  install_pkg_manager
+  ;;
+"dotfiles" )
+  install_dotfiles
+  ;;
+esac

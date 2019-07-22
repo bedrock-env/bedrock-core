@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+#
+# bedrock-update
+#
+git -C $BEDROCK_DIR pull

@@ -1,4 +1,5 @@
 export LSCOLORS="exfxcxdxbxegedabagacad"
+# export LSCOLORS="gxBxhxDxfxhxhxhxhxcxcx"
 export CLICOLOR=true
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -6,6 +7,9 @@ export LANG=en_US.UTF-8
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+
+autoload -Uz compinit
+compinit
 
 setopt NO_BG_NICE # don't nice background tasks
 setopt NO_HUP
