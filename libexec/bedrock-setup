@@ -1,10 +1,10 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 source $BEDROCK_DIR/libexec/shared
 
 function install_pkg_manager () {
   # macOS - Homebrew
-  if [ "$(uname -s)" = "Darwin" ]
+  if [ "$(uname -s)" == "Darwin" ]
   then
     if test ! "$(which brew)"
     then
@@ -31,6 +31,8 @@ function install_zsh () {
   if [ $SHELL != "/usr/local/bin/zsh" ]
   then
     info "Updating shell to zsh"
+    SHELL_LINE="/usr/local/bin/zsh"
+    sudo grep -qF "$SHELL_LINE" /etc/shells || echo "$SHELL_LINE" | sudo tee -a /etc/shells
     chsh -s "/usr/local/bin/zsh"
     info "You may wish to restart your Terminal sessions to ensure this takes effect"
   fi
