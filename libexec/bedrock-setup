@@ -22,11 +22,26 @@ function install_pkg_manager () {
   fi
 }
 
+function install_zsh () {
+  if [ `which zsh` != "/usr/local/bin/zsh" ]
+  then
+    brew install zsh
+  fi
+
+  if [ $SHELL != "/usr/local/bin/zsh" ]
+  then
+    info "Updating shell to zsh"
+    chsh -s "/usr/local/bin/zsh"
+    info "You may wish to restart your Terminal sessions to ensure this takes effect"
+  fi
+}
+
 command="$1"
 
 case "$command" in
 "dependencies" )
   install_pkg_manager
+  install_zsh
   ;;
 "dotfiles" )
   install_dotfiles
