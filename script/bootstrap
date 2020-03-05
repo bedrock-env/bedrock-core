@@ -12,7 +12,12 @@ configure_bedrock () {
 
   if [ -f "$HOME/.bedrockrc" ]
   then
-    sed -i '' "/export BEDROCK_DIR/ s#=.*#=$CWD#" $HOME/.bedrockrc
+    if [ "$(uname -s)" == "Darwin" ]
+    then
+      sed -i '' "/export BEDROCK_DIR/ s#=.*#=$CWD#" $HOME/.bedrockrc
+    else
+      sed -i -e "/export BEDROCK_DIR/ s#=.*#=$CWD#" $HOME/.bedrockrc
+    fi
   else
     echo "export BEDROCK_DIR=$CWD" > $HOME/.bedrockrc
   fi
