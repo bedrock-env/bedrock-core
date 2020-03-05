@@ -1,4 +1,5 @@
 extensions
+bundle
 
 .DS_Store
 vim/vim.symlink/bundle
