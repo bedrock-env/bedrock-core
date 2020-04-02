@@ -1,4 +1,4 @@
-# bedrock
+# Bedrock
 
 A framework for constructing a standardized setup for dotfiles.
 

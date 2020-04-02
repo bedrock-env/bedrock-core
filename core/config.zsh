@@ -30,7 +30,7 @@ setopt HIST_REDUCE_BLANKS
 
 zle -N newtab
 
-bindkey -e
+bindkey -e # emacs key bindings
 
 bindkey '^[^[[D' backward-word
 bindkey '^[^[[C' forward-word
@@ -47,3 +47,12 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+
+# http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Widgets
+# http://zsh.sourceforge.net/Doc/Release/Zsh-Line-Editor.html#Zle-Builtins
+# In addition to these names, either ‘emacs’ or ‘viins’ is also linked to the
+# name ‘main’. If one of the VISUAL or EDITOR environment variables contain the
+# string ‘vi’ when the shell starts up then it will be ‘viins’, otherwise it
+# will be ‘emacs’. bindkey’s -e and -v options provide a convenient way to
+# override this default choice.
+# bindkey -v # vim key bindings
