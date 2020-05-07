@@ -1,0 +1,34 @@
+[
+    {
+        "name": "git",
+        "branch": "next"
+    },
+    {
+        "name": "ack",
+        "branch": "next"
+    },
+    {
+        "name": "powerlevel9k",
+        "branch": "next"
+    },
+    {
+        "name": "ruby",
+        "branch": "next"
+    },
+    {
+        "name": "rbenv",
+        "branch": "next"
+    },
+    {
+        "name": "tmux",
+        "branch": "next"
+    },
+    {
+        "name": "elixir",
+        "branch": "next"
+    },
+    {
+        "name": "vim",
+        "branch": "next"
+    }
+]

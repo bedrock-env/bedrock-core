@@ -6,14 +6,12 @@ TERM=screen-256color
 
 while read -r line || [[ $line ]]; do
   extensions+=("$line")
-done < $BEDROCK_DIR/bundle
-
-extensionDirs=("${extensions[@]/#/$BEDROCK_DIR/extensions/}")
+done < $BEDROCK_DIR/bundle/load
 
 setopt NULL_GLOB
 filesToLoad+=($BEDROCK_DIR/core/*.zsh)
-filesToLoad+=(${^extensionDirs}/**/{path.zsh,init.zsh,completion.zsh})
-files=(${^extensionDirs}/**/*.zsh)
+filesToLoad+=(${^extensions}/**/{path.zsh,init.zsh,completion.zsh})
+files=(${^extensions}/**/*.zsh)
 filesToLoad+=(${${${${files:#*/path.zsh}:#*/init.zsh}:#*/install.zsh}#*/update.zsh})
 unsetopt NULL_GLOB
 

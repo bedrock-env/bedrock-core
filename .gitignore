@@ -1,10 +1,6 @@
-extensions
-bundle
-
 .DS_Store
 vim/vim.symlink/bundle
 *~
-
 !*.gitkeep
-extensions_disabled
+bundle
 vendor/*
