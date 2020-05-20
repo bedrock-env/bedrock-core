@@ -1,34 +1,26 @@
 [
     {
-        "name": "git",
-        "branch": "next"
+        "name": "git"
     },
     {
-        "name": "ack",
-        "branch": "next"
+        "name": "ack"
     },
     {
-        "name": "powerlevel9k",
-        "branch": "next"
+        "name": "powerlevel9k"
     },
     {
-        "name": "ruby",
-        "branch": "next"
+        "name": "ruby"
     },
     {
-        "name": "rbenv",
-        "branch": "next"
+        "name": "rbenv"
     },
     {
-        "name": "tmux",
-        "branch": "next"
+        "name": "tmux"
     },
     {
-        "name": "elixir",
-        "branch": "next"
+        "name": "elixir"
     },
     {
-        "name": "vim",
-        "branch": "next"
+        "name": "vim"
     }
 ]
