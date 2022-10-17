@@ -1,0 +1,4 @@
+bundle:
+- name: git
+  git: https://github.com/bedrock-env/git
+  branch: new
