@@ -4,7 +4,7 @@ export BEDROCK_DIR=$(dirname "$0")
 
 TERM=screen-256color
 
-if [ -f $BEDROCK_DIR/bundle/load ]; then
+if [ -s $BEDROCK_DIR/bundle/load ]; then
   while read -r line || [[ $line ]]; do
     extensions+=("$line")
   done < $BEDROCK_DIR/bundle/load
